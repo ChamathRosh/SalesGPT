@@ -46,7 +46,7 @@ class SalesGPT(Chain):
 
     model_name: str = "gpt-3.5-turbo-0613"
 
-    use_tools: bool = True
+    use_tools: bool = False
     salesperson_name: str = "Ted Lasso"
     salesperson_role: str = "Business Development Representative"
     company_name: str = "Sleep Haven"

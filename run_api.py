@@ -5,6 +5,7 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+# Assuming you have a module named salesgpt with a class SalesGPTAPI
 from salesgpt.salesgptapi import SalesGPTAPI
 
 app = FastAPI()
@@ -34,15 +35,21 @@ async def chat_with_sales_agent(req: MessageList):
 
 
 def _set_env():
-    with open(".env", "r") as f:
-        env_file = f.readlines()
-    envs_dict = {
-        key.strip("'"): value.strip("\n")
-        for key, value in [(i.split("=")) for i in env_file]
-    }
-    os.environ["OPENAI_API_KEY"] = envs_dict["OPENAI_API_KEY"]
+    # Ensure .env file exists and contains the necessary environment variables
+    if os.path.isfile(".env"):
+        with open(".env", "r") as f:
+            env_file = f.readlines()
+        envs_dict = {
+            key.strip(): value.strip("\n")
+            for key, value in (line.split("=") for line in env_file if line.strip())
+        }
+        os.environ["OPENAI_API_KEY"] = envs_dict.get("OPENAI_API_KEY", "")
+    else:
+        print(".env file not found, ensure OPENAI_API_KEY is set.")
 
 
 if __name__ == "__main__":
     _set_env()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Use PORT environment variable if available, otherwise default to 8000 for local development
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

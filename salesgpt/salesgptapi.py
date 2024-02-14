@@ -9,7 +9,7 @@ GPT_MODEL = "gpt-3.5-turbo-0613"
 
 
 class SalesGPTAPI:
-    USE_TOOLS = True
+    USE_TOOLS = False
 
     def __init__(
         self, config_path: str, verbose: bool = False, max_num_turns: int = 10

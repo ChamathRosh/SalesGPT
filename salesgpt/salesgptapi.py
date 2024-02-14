@@ -12,7 +12,7 @@ class SalesGPTAPI:
     USE_TOOLS = False
 
     def __init__(
-        self, config_path: str, verbose: bool = False, max_num_turns: int = 10
+        self, config_path: str, verbose: bool = False, max_num_turns: int = 0
     ):
         self.config_path = config_path
         self.verbose = verbose
